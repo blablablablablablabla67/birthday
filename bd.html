@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Letter For Uzair</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500;1,600&family=Caveat:wght@500;700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg-deep:#1c0d12;
+    --bg-mid:#3a1722;
+    --bg-soft:#5c2433;
+    --paper:#faf2e6;
+    --paper-edge:#e9dcc4;
+    --gold:#d4a857;
+    --gold-soft:#e8c98b;
+    --rose:#b3394a;
+    --blush:#eab3bd;
+    --ink:#2b1820;
+    --cream:#f8ecdf;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:'Work Sans', sans-serif;
+    background:
+      radial-gradient(ellipse at 50% -10%, var(--bg-soft), transparent 55%),
+      linear-gradient(180deg, var(--bg-deep), #150810 75%, #0f0509);
+    color:var(--cream);
+    min-height:100vh;
+    overflow-x:hidden;
+  }
+
+  h1,h2,h3{font-family:'Playfair Display', serif; margin:0;}
+  .script{ font-family:'Caveat', cursive; }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important;}
+  }
+
+  .glow{position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden;}
+  .spark{position:absolute; width:3px; height:3px; background:var(--gold-soft); border-radius:50%; opacity:.45; animation:twinkle 5s ease-in-out infinite;}
+  @keyframes twinkle{0%,100%{opacity:.1;} 50%{opacity:.6;}}
+
+  .cover{
+    position:relative; z-index:1;
+    min-height:100vh;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center;
+    padding:2rem;
+    transition:opacity .7s ease;
+  }
+  .cover.opening{ opacity:0; pointer-events:none; }
+
+  .eyebrow{
+    font-family:'Caveat', cursive;
+    font-size:1.4rem;
+    color:var(--gold-soft);
+    margin-bottom:.4rem;
+  }
+  .cover h1{
+    font-size:clamp(2.2rem, 7vw, 3.6rem);
+    font-weight:600;
+    font-style:italic;
+    color:var(--cream);
+    text-shadow:0 2px 30px rgba(212,168,87,.25);
+    max-width:18ch;
+    line-height:1.15;
+  }
+
+  .envelope{
+    margin-top:2.6rem;
+    width:min(320px, 80vw);
+    aspect-ratio:3/2;
+    position:relative;
+    cursor:pointer;
+  }
+  .envelope-body{
+    position:absolute; inset:0;
+    background:linear-gradient(160deg, #f1e3cf, var(--paper));
+    border-radius:6px;
+    box-shadow:0 25px 60px rgba(0,0,0,.5);
+  }
+  .envelope-flap{
+    position:absolute; top:0; left:0; right:0; height:55%;
+    background:linear-gradient(160deg, #e7d6ba, #f1e3cf);
+    clip-path:polygon(0 0, 100% 0, 50% 100%);
+    transform-origin:top center;
+    transition:transform .8s cubic-bezier(.6,0,.3,1);
+    border-radius:6px 6px 0 0;
+    z-index:2;
+  }
+  .envelope.open .envelope-flap{ transform:rotateX(180deg); }
+  .wax-seal{
+    position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+    width:58px; height:58px; border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, #c64a5c, var(--rose) 70%);
+    box-shadow:0 6px 14px rgba(0,0,0,.4), inset 0 -3px 6px rgba(0,0,0,.25);
+    display:flex; align-items:center; justify-content:center;
+    color:var(--cream); font-size:1.4rem;
+    z-index:3;
+    transition:transform .4s ease, opacity .4s ease;
+  }
+  .envelope.open .wax-seal{ transform:translate(-50%,-50%) scale(0); opacity:0; }
+  .envelope-hint{
+    margin-top:1.4rem;
+    font-family:'Space Mono', monospace;
+    font-size:.75rem;
+    letter-spacing:.08em;
+    color:rgba(248,236,223,.55);
+  }
+
+  .pages{ position:relative; z-index:1; }
+  .pages[hidden]{ display:none; }
+
+  section.page{
+    min-height:100vh;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    padding:5rem 1.5rem;
+    position:relative;
+  }
+
+  .section-label{
+    font-family:'Caveat', cursive;
+    font-size:1.3rem;
+    color:var(--gold-soft);
+    margin-bottom:.3rem;
+  }
+  .section-title{
+    font-size:clamp(2rem, 6vw, 3.1rem);
+    font-weight:600;
+    font-style:italic;
+    color:var(--cream);
+    margin-bottom:2.5rem;
+    text-align:center;
+  }
+
+  .letter-card{
+    background:var(--paper);
+    color:var(--ink);
+    width:min(640px, 100%);
+    border-radius:4px;
+    box-shadow:0 30px 70px rgba(0,0,0,.5);
+    padding:clamp(2rem,6vw,3.2rem);
+    position:relative;
+  }
+  .letter-card::before{
+    content:"";
+    position:absolute; inset:10px;
+    border:1px solid var(--paper-edge);
+    pointer-events:none;
+  }
+  .letter-card .greet{
+    font-family:'Playfair Display', serif;
+    font-style:italic;
+    font-size:1.5rem;
+    margin-bottom:1rem;
+  }
+  .letter-card p{
+    font-family:'Work Sans', sans-serif;
+    line-height:1.75;
+    font-size:1.02rem;
+    color:#3a2a30;
+    white-space:pre-line;
+  }
+  .letter-card .sign{
+    margin-top:1.6rem;
+    font-family:'Caveat', cursive;
+    font-size:1.8rem;
+    color:var(--rose);
+  }
+
+  .notes-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(150px, 1fr));
+    gap:1.1rem;
+    width:min(960px, 100%);
+  }
+  .note{
+    position:relative;
+    background:var(--paper);
+    color:var(--ink);
+    border-radius:6px;
+    padding:1.1rem .9rem;
+    text-align:center;
+    cursor:pointer;
+    transform:rotate(var(--r,0deg));
+    transition:transform .35s ease, box-shadow .35s ease;
+    min-height:120px;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    box-shadow:0 10px 20px rgba(0,0,0,.25);
+  }
+  .note:nth-child(3n+1){--r:-2.5deg;}
+  .note:nth-child(3n+2){--r:1.5deg;}
+  .note:nth-child(3n){--r:-1deg;}
+  .note:hover, .note:focus-visible{
+    transform:rotate(0deg) scale(1.06);
+    box-shadow:0 18px 36px rgba(0,0,0,.4);
+    outline:none;
+  }
+  .note .icon{ font-size:1.4rem; margin-bottom:.35rem; }
+  .note .num{
+    font-family:'Caveat', cursive; font-size:1.05rem; color:var(--rose); margin-bottom:.2rem;
+  }
+  .note .front-txt{ font-family:'Caveat', cursive; font-size:1rem; color:#7a6650; }
+  .note .back-txt{ display:none; font-family:'Playfair Display', serif; font-style:italic; font-size:.88rem; line-height:1.35; }
+  .note.flipped .front-txt, .note.flipped .icon{ display:none; }
+  .note.flipped .back-txt{ display:block; }
+
+  .game-box{
+    width:min(640px, 100%);
+    height:380px;
+    background:var(--paper);
+    border-radius:10px;
+    position:relative;
+    overflow:hidden;
+    box-shadow:0 24px 50px rgba(0,0,0,.45);
+  }
+  .game-hud{
+    position:absolute; top:0; left:0; right:0;
+    display:flex; justify-content:space-between; align-items:center;
+    padding:.8rem 1rem;
+    font-family:'Work Sans', sans-serif;
+    font-size:.8rem;
+    color:#7a6650;
+    z-index:5;
+    background:linear-gradient(180deg, rgba(250,242,230,.95), rgba(250,242,230,0));
+  }
+  .game-heart{
+    position:absolute;
+    font-size:1.8rem;
+    cursor:pointer;
+    user-select:none;
+    background:none; border:none;
+    animation:rise linear forwards;
+    filter:drop-shadow(0 4px 6px rgba(0,0,0,.2));
+  }
+  @keyframes rise{
+    from{ transform:translateY(0) scale(1); opacity:1; }
+    to{ transform:translateY(-380px) scale(.8); opacity:0; }
+  }
+  .game-msg{
+    position:absolute; inset:0;
+    display:none;
+    align-items:center; justify-content:center;
+    flex-direction:column;
+    text-align:center;
+    padding:2rem;
+    background:var(--paper);
+    z-index:6;
+  }
+  .game-msg.show{ display:flex; }
+  .game-msg h3{ font-style:italic; color:var(--rose); margin-bottom:.6rem; }
+  .game-msg p{ font-family:'Work Sans', sans-serif; color:#5c4a3a; }
+  .start-btn, .replay-btn{
+    margin-top:1rem;
+    background:var(--rose);
+    color:var(--cream);
+    border:none;
+    font-family:'Work Sans', sans-serif;
+    font-size:.85rem;
+    padding:.7rem 1.4rem;
+    border-radius:999px;
+    cursor:pointer;
+    transition:transform .25s;
+  }
+  .start-btn:hover, .replay-btn:hover{ transform:translateY(-2px); }
+  .game-hint{
+    margin-top:1.2rem;
+    font-family:'Caveat', cursive;
+    font-size:1.1rem;
+    color:rgba(248,236,223,.7);
+  }
+
+  .final-letter-wrap{ perspective:1600px; width:min(560px, 100%); }
+  .final-letter{
+    position:relative; width:100%; min-height:380px;
+    cursor:pointer;
+  }
+  .fl-closed{
+    background:var(--paper); border-radius:8px;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    text-align:center; padding:2rem; min-height:380px;
+    box-shadow:0 24px 50px rgba(0,0,0,.4);
+    color:var(--ink);
+  }
+  .fl-closed .seal-btn{
+    width:64px; height:64px; border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, #c64a5c, var(--rose) 70%);
+    box-shadow:0 6px 14px rgba(0,0,0,.4);
+    display:flex; align-items:center; justify-content:center;
+    color:var(--cream); font-size:1.5rem; margin-top:1.2rem;
+  }
+  .fl-open{ display:none; }
+  .fl-open.show{
+    display:block;
+    background:var(--paper); border-radius:8px;
+    padding:clamp(1.8rem,5vw,2.8rem); min-height:380px;
+    box-shadow:0 24px 50px rgba(0,0,0,.4);
+    color:var(--ink);
+    animation:pop .5s ease;
+  }
+  @keyframes pop{ from{ transform:scale(.92); opacity:0; } to{ transform:scale(1); opacity:1; } }
+  .fl-open .greet{ font-family:'Playfair Display', serif; font-style:italic; font-size:1.4rem; margin-bottom:.8rem; }
+  .fl-open p{ font-family:'Work Sans', sans-serif; line-height:1.75; color:#3a2a30; white-space:pre-line; }
+  .fl-open .sign{ margin-top:1.4rem; font-family:'Caveat', cursive; font-size:1.8rem; color:var(--rose); }
+
+  canvas#confetti{ position:fixed; inset:0; pointer-events:none; z-index:10; }
+
+  footer{
+    text-align:center;
+    padding:3rem 1rem 4rem;
+    font-family:'Caveat', cursive;
+    font-size:1.2rem;
+    color:rgba(248,236,223,.5);
+  }
+</style>
+</head>
+<body>
+
+<div class="glow" id="glow"></div>
+<canvas id="confetti"></canvas>
+
+<div class="cover" id="cover">
+  <div class="eyebrow">a little something for</div>
+  <h1>My Dearest Uzair</h1>
+  <div class="envelope" id="envelope" tabindex="0" role="button" aria-label="Open the envelope">
+    <div class="envelope-body"></div>
+    <div class="envelope-flap"></div>
+    <div class="wax-seal">❤</div>
+  </div>
+  <div class="envelope-hint">tap the seal to open</div>
+</div>
+
+<main class="pages" id="pages" hidden>
+
+  <section class="page" id="letterPage">
+    <div class="section-label">first, this</div>
+    <h2 class="section-title">A Few Words</h2>
+    <div class="letter-card">
+      <div class="greet">My dearest Uzair,</div>
+      <p id="openingMessage">Uzair you have no idea what you are. Not just to me. Wese in general what an awesome insaan u are. To me. aap sab kuch hain. Sab kuch uzair. Meri saanse aapme hai. aap meri zindagi hain. Mere dil ki dharkan hain. aapke baghair life feels meaningless. Uzair I don't want to even imagine a life without you in it. I cant uzair. I cant, it makes me want to sob wala cry. Because your mine and I cant share you even in my imagination. I cant share you. uzair You're the most amazing human to ever exist on this planet. I am so lucky, so so so lucky, to have found you. Your so freaking beautiful uzair, inside and out. Your smile uzair…uff.. ur smile makes me want to kiss the hell out of you</p>
+      <div class="sign">— always yours</div>
+    </div>
+  </section>
+
+  <section class="page" id="reasonsPage">
+    <div class="section-label">page two</div>
+    <h2 class="section-title">100 Things I Love About You</h2>
+    <div class="notes-grid" id="notesGrid"></div>
+  </section>
+
+  <section class="page" id="gamePage">
+    <div class="section-label">page three</div>
+    <h2 class="section-title">Catch a Little Love</h2>
+    <div class="game-box" id="gameBox">
+      <div class="game-hud">
+        <span>Score: <strong id="scoreVal">0</strong></span>
+        <span id="timeVal">15s</span>
+      </div>
+      <div class="game-msg show" id="gameStart">
+        <h3>Catch as many hearts as you can</h3>
+        <p>15 seconds. Tap the hearts as they float up.</p>
+        <button class="start-btn" id="startGameBtn">Start</button>
+      </div>
+      <div class="game-msg" id="gameEnd">
+        <h3 id="gameEndTitle">Look at that!</h3>
+        <p id="gameEndMsg">You caught bs some hearts lakinn the real amount I have for you is uncountable.</p>
+        <button class="replay-btn" id="replayBtn">Play Again</button>
+      </div>
+    </div>
+    <p class="game-hint">no matter the score, you already won my heart</p>
+  </section>
+
+  <section class="page" id="finalPage">
+    <div class="section-label">last page</div>
+    <h2 class="section-title">Happy Birthday</h2>
+    <div class="final-letter-wrap">
+      <div class="final-letter" id="finalLetter" tabindex="0" role="button" aria-label="Open your birthday letter">
+        <div class="fl-closed" id="flClosed">
+          <div class="script" style="font-size:1.6rem; color:#7a6650;">one last letter, just for today</div>
+          <div class="seal-btn">❤</div>
+        </div>
+        <div class="fl-open" id="flOpen">
+          <div class="greet">Happy birthday, Zairuuuu.</div>
+          <p id="finalMessage">Okay so i have to tell u something, ek saal pehle, jab hum baat nahi kar rahe thay, jab everything felt off and weird between us, i remember literally counting down the days to ur birthday. Like genuinely waiting for it, kyunke i needed an excuse, i needed a reason ke i could just text u without it being weird, without overthinking what to say ya how to start the conversation again. Ur birthday was like this lifeline i was holding onto, like okay just wait, just wait for that day, and then i can finally say something. Pata nahi why i couldn't just text u normally lekin aapka birthday felt like a permission somehow. I missed u even back then, even when i was acting like i didn't.
+
+Anyway. Ab here we are, and good thing we're not in that place anymore. Uzair i just want today to be so so good for u, kyunke u deserve it bohot bohot bohot zyada.
+
+I keep thinking about Sharan, like how random that day was, just some guy who decided to help a stranger, and look what that turned into. Mujhe kabhi nahi pata tha ke that one moment was going to turn into saara kuch. The bonfire that night, hum baatein kar rahe thay about literally nothing and i remember feeling itna at peace. Phir Fairy Meadows, mai itni ajeeb thi puri hike mein, aur aapne ek second ke liye bhi mujhe akela nahi chorre, mere pace pe chaltay rahe, mujhe sambhalte rahe, aur mujhe kabhi Ehsaas bhi nahi hone diya ke mai burden thi. Us waqt bhi aap waisay hi thay jaisay ab hain, hamesha mere saath rehne walay, hamesha rukne walay.
+
+Oh alsoooo Aaghh I was so scared to call u the first time, yaad hai mujhe, mai kitni nervous thi aapko call karne se pehle, finally himmat ki aapki waja se, aur uske baad pata nahi kab aur kese I look forward to a call hameshaa, ussi call ki waja se I get good sleep.
+
+Uzair uve always been there for me. Hamesha.
+
+U don't know how much u mean to me. I love everything about u. I love the way u talk and I love the way u laugh, aghh I love ur laugh. I love ur laugh so much. I always found ur voice so freaking attractive. You voice gives me butterflies uzair. The way you say my name, your voice goes all low when u say it. it makes me all smilyyy and aww and ahhh. I love the way you always freaking know how im feeling, I never knew I was so freaking transparent. I don't think I am. I think I just cant help it with you. I don't know, how u can instantly tell when im not feeling great, without me saying anything. its freaking beautiful how u can even tell only through texts. You pay such close attention to me. Uzair ur always there for me. Always. Your my closest ever friend. Theres nothing I want to hide from u. Theres nothing I don't want to tell you. Theres nothing at all i want to keep from u. Uzair I want you to know every thing about me, everything I hide from the rest of the world. You make me feel safe. So so so safe. I could get through anything when im with you. I could survive whatever life throws at me, as long as ur with me. Your my rock Uzair. You make me feel so comfortable so loved, so cared for. You're the best person ever Uzair. You're the best person for me. I wouldn't have found anyone better, I wouldn't have found anyone better even if I had a thousand lives to search, id still pick u. id still find you. id still be obsessed with you like I am now. Id still want only you. Id still feel only for you. id still only want you. I can spend an entire eternity cut off from everyone, from everything if it means id be able to live with you. you are all I want from this faani world uzair. Your all I want. I want all of you. forever. You and me. Everyday. uzair your amazing. I am so grateful for u. so grateful u came into this world. So grateful you were born. Uzair I want a lifetime with you. I want my every morning to be OUR morning, I want my every night to be OUR night. I want to wake up in your arms every single day, I want to go to bed in your arms every single night. I want to follow you around, wherever you go, I want to not be sepearted from you for even a minute. I want all your time and all your attention, I want you Uzair I know im difficult sometimes, but istg I want you. I want you more than anything in this whole world. I want you more than anything. The want I have for you is an ocean compared to the drop of someone elses want. uzair you mean the entire world to me. The whole entire world to me. I am so glad I have you. so so glad. I wish im with you on each and every birthday, I wish u want me the same every single birthday.. Im so happy, ive knownu, im so happy that i don't remember life without u.. Kaash aap hazaar saal jiyeen uzair.. poori zindagii mere sath rahenn, hameshaa hameshaa hameshaa.. aur zindagi ke baadd bhii.. aurr uzair kaashh kee ye saal aapkaaa sabseee happy year yet hoo, sabsee zyadaa. I hope koii aikk dhuk ka aansoon na niklee aapki aankhon see. Kaash is saal aapki sabb duaainn sab umeedenn sabb khuahishaat poori hojayaain, sab aapkoo mill jaayee, jo bhii aap chahtee haninn and joo bhi aapke liye behtarr hoo. I hope im with you again next year, and the next and the next and the next, and all the way to the end. I like you uzair, I like you so so so much. Poori duniyaa se zyadaaa I Hope you have a  VERYYYYYY VERYYYYY VERYYYYYYY VERYYYYYY HAPPPYYYY BIRTHDAYYYY MEREEE DILKEEE TUKDEEEE. I LOVEEE YOUUU TOO INFINITYYY.
+
+Ill always want u hameshaa hameshaaa hameshaaaaaa bohott bohottt bohotttt bohotttt bohotttt bohotttttttttt bohottttttt bohottttttttt bohooooottttt bohotttttt bohottttttt bohottttt bohott bohottt bohotttt bohotttt bohotttt bohotttttttttt bohottttttt bohottttttttt bohooooottttt bohotttttt bohottttttt bohottttt bohott bohottt bohotttt bohotttt bohotttt bohotttttttttt bohottttttt bohottttttttt bohooooottttt bohotttttt bohottttttt bohottttt bohott bohottt bohotttt bohotttt bohotttt bohotttttttttt bohottttttt bohottttttttt bohooooottttt bohotttttt bohottttttt bohottttt bohott bohottt bohotttt bohotttt bohotttt bohotttttttttt bohottttttt bohottttttttt zadaaaa
+
+Obsesed hai ye larki aapse. Bohot zor ka wala.</p>
+          <div class="sign">— happy birthday, Jaan ❤</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>made with love, for the one who has all of mine</footer>
+</main>
+
+<script>
+  const REASONS = [
+    "Your smile","Your laugh","Your kindness","Your honesty","Your heart","Your patience","Your voice","Your hugs",
+    "Your humor","Your loyalty","Your eyes","Your energy","Your care","Your support","Your respect","Your warmth",
+    "Your confidence","Your calmness","Your sweetness","Your effort","Your texts","Your presence","Your forgiveness",
+    "Your comfort","Your trust","Your dreams","Your ambition","Your intelligence","Your creativity",
+    "Your honesty with me","Your patience with me","Your little jokes","Your advice","Your attention","Your softness",
+    "Your strength","Your understanding","Your loyalty to me","Your love","Your affection","Your personality",
+    "Your silliness","Your courage","Your positivity","Your thoughtfulness","Your cute habits","Your passion",
+    "Your protectiveness","Your respect for others","Your caring nature","Your good morning messages",
+    "Your good night messages","Your honesty with feelings","Your gentle words","Your beautiful mind","Your soul",
+    "Your patience when I'm difficult","Your encouragement","Your compliments","Your surprises",
+    "Your laugh at my jokes","Your way of listening","Your way of loving","Your loyalty in hard times",
+    "Your peaceful vibe","Your smile when you see me","Your cute reactions","Your confidence in me",
+    "Your belief in us","Your open heart","Your emotional side","Your honesty even when it's hard",
+    "Your respect for my feelings","Your time","Your effort to understand me","Your patience with love",
+    "Your random calls","Your sweet words","Your beautiful face","Your gentle touch","Your goofy side",
+    "Your serious side","Your advice when I'm lost","Your ability to make me happy","Your support when I'm down",
+    "Your love for family","Your beautiful smile","Your warm hugs","Your caring messages",
+    "Your loyalty to your people","Your peaceful heart","Your honesty in love","Your way of making me feel safe",
+    "Your kindness to everyone","Your patience with life","Your strength through pain","Your love for me",
+    "Your beautiful soul","Your everything","You"
+  ];
+
+  const ICONS = ["❤️","✨","💛","🫂","☀️","💌","🌷","💗","🤍","😄"];
+
+  const glowEl = document.getElementById('glow');
+  for(let i=0;i<50;i++){
+    const s = document.createElement('div');
+    s.className='spark';
+    s.style.left = Math.random()*100+'%';
+    s.style.top = Math.random()*100+'%';
+    s.style.animationDelay = (Math.random()*5)+'s';
+    glowEl.appendChild(s);
+  }
+
+  const cover = document.getElementById('cover');
+  const envelope = document.getElementById('envelope');
+  const pages = document.getElementById('pages');
+  function openEnvelope(){
+    if(envelope.classList.contains('open')) return;
+    envelope.classList.add('open');
+    setTimeout(()=>{
+      cover.classList.add('opening');
+      setTimeout(()=>{
+        cover.style.display='none';
+        pages.hidden=false;
+        pages.scrollIntoView({behavior:'smooth'});
+      }, 700);
+    }, 500);
+  }
+  envelope.addEventListener('click', openEnvelope);
+  envelope.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openEnvelope(); } });
+
+  const notesGrid = document.getElementById('notesGrid');
+  REASONS.forEach((text,i)=>{
+    const card = document.createElement('div');
+    card.className='note';
+    card.tabIndex=0;
+    card.setAttribute('role','button');
+    card.setAttribute('aria-label','Reason '+(i+1));
+    const icon = ICONS[i % ICONS.length];
+    card.innerHTML = `
+      <div class="num">#${i+1}</div>
+      <div class="icon">${icon}</div>
+      <div class="front-txt">tap to read</div>
+      <div class="back-txt">${text}</div>
+    `;
+    function toggle(){ card.classList.toggle('flipped'); }
+    card.addEventListener('click', toggle);
+    card.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); toggle(); } });
+    notesGrid.appendChild(card);
+  });
+
+  const gameBox = document.getElementById('gameBox');
+  const scoreVal = document.getElementById('scoreVal');
+  const timeVal = document.getElementById('timeVal');
+  const gameStart = document.getElementById('gameStart');
+  const gameEnd = document.getElementById('gameEnd');
+  const gameEndTitle = document.getElementById('gameEndTitle');
+  const gameEndMsg = document.getElementById('gameEndMsg');
+  const startBtn = document.getElementById('startGameBtn');
+  const replayBtn = document.getElementById('replayBtn');
+
+  let score=0, timeLeft=15, gameTimer=null, spawnTimer=null, playing=false;
+  const heartEmojis = ['❤️','💛','💕','💗'];
+
+  function spawnHeart(){
+    if(!playing) return;
+    const h = document.createElement('button');
+    h.className='game-heart';
+    h.textContent = heartEmojis[Math.floor(Math.random()*heartEmojis.length)];
+    h.style.left = (5+Math.random()*85)+'%';
+    h.style.bottom = '-40px';
+    h.style.animationDuration = (3+Math.random()*1.5)+'s';
+    h.addEventListener('click', ()=>{
+      if(!playing) return;
+      score++;
+      scoreVal.textContent = score;
+      h.remove();
+    });
+    h.addEventListener('animationend', ()=> h.remove());
+    gameBox.appendChild(h);
+  }
+
+  function startGame(){
+    score=0; timeLeft=15;
+    scoreVal.textContent='0';
+    timeVal.textContent='15s';
+    gameStart.classList.remove('show');
+    gameEnd.classList.remove('show');
+    playing=true;
+    spawnTimer = setInterval(spawnHeart, 450);
+    gameTimer = setInterval(()=>{
+      timeLeft--;
+      timeVal.textContent = timeLeft+'s';
+      if(timeLeft<=0) endGame();
+    }, 1000);
+  }
+
+  function endGame(){
+    playing=false;
+    clearInterval(spawnTimer);
+    clearInterval(gameTimer);
+    gameBox.querySelectorAll('.game-heart').forEach(h=>h.remove());
+    gameEndTitle.textContent = score>=15 ? "You caught them all!" : "nice!";
+    gameEndMsg.textContent = `You caught bs ${score} heart${score===1?'':'s'} lakinn the real amount I have for you is uncountable zairu.`;
+    gameEnd.classList.add('show');
+  }
+
+  startBtn.addEventListener('click', startGame);
+  replayBtn.addEventListener('click', startGame);
+
+  const finalLetter = document.getElementById('finalLetter');
+  const flClosed = document.getElementById('flClosed');
+  const flOpen = document.getElementById('flOpen');
+  const canvas = document.getElementById('confetti');
+  const ctx = canvas.getContext('2d');
+  function resize(){ canvas.width = innerWidth; canvas.height = innerHeight; }
+  resize(); addEventListener('resize', resize);
+
+  let particles=[];
+  function burstConfetti(){
+    const colors = ['#b3394a','#d4a857','#eab3bd','#f8ecdf'];
+    particles=[];
+    for(let i=0;i<140;i++){
+      particles.push({
+        x: canvas.width/2, y: canvas.height/2,
+        vx:(Math.random()-0.5)*14, vy:(Math.random()-1.2)*14,
+        size:5+Math.random()*5,
+        color:colors[Math.floor(Math.random()*colors.length)],
+        rot:Math.random()*360, vr:(Math.random()-0.5)*10,
+        life:100+Math.random()*40,
+        heart: Math.random()<0.4
+      });
+    }
+    requestAnimationFrame(animate);
+  }
+  function animate(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    let alive=false;
+    particles.forEach(p=>{
+      if(p.life<=0) return;
+      alive=true;
+      p.vy += 0.18;
+      p.x += p.vx; p.y += p.vy; p.rot += p.vr; p.life--;
+      ctx.save();
+      ctx.translate(p.x,p.y);
+      ctx.rotate(p.rot*Math.PI/180);
+      ctx.globalAlpha = Math.min(1, p.life/40);
+      if(p.heart){
+        ctx.font = p.size*2+'px serif';
+        ctx.fillStyle = p.color;
+        ctx.fillText('❤', -p.size, p.size/2);
+      } else {
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-p.size/2,-p.size/2,p.size,p.size);
+      }
+      ctx.restore();
+    });
+    if(alive) requestAnimationFrame(animate);
+    else ctx.clearRect(0,0,canvas.width,canvas.height);
+  }
+
+  function openFinal(){
+    if(flOpen.classList.contains('show')) return;
+    flClosed.style.display='none';
+    flOpen.classList.add('show');
+    burstConfetti();
+  }
+  finalLetter.addEventListener('click', openFinal);
+  finalLetter.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openFinal(); } });
+</script>
+</body>
+</html>
